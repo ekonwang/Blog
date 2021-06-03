@@ -77,5 +77,5 @@ class Article(models.Model):
         return md_body, md.toc
     
     class Meta:
-        ordering = ['-created']
+        ordering = ['created']
 

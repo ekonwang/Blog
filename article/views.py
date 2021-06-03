@@ -5,6 +5,7 @@ from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework import status, mixins, generics, viewsets, filters
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
+from article.permissions import IsOwnerOrAdminOrReadOnly
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse, Http404
@@ -19,7 +20,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     # filterset_fields = ['author__username', 'title']
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -30,30 +31,40 @@ class ArticleViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(author__username=username)
         return queryset
+    
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ArticleSerializer
+        else:
+            return ArticleDetailSerializer
 
 
 class AvatarViewSet(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrAdminOrReadOnly]
+    pagination_class = None
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = None
 
-    def get_serializer(self):
+    def get_serializer_class(self):
         if self.action == 'list':
             return CategorySerializer
         else:
-            return CategoryDetailSerializer
+            return CategoryDetailSerializer 
 
         
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = None
+
 
 """ @api_view(['GET', 'POST'])
 def article_list(request):

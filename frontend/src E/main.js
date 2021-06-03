@@ -1,6 +1,7 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
+
 
 URLSearchParams.prototype.appendIfExists = function (key, value) {
     if (value !== null && value !== undefined) {
@@ -9,4 +10,3 @@ URLSearchParams.prototype.appendIfExists = function (key, value) {
 };
 
 createApp(App).use(router).mount('#app');
-
