@@ -1,5 +1,9 @@
 <template>
+
     <div id="header">
+        <div class = "bg">
+            <img :src="imgSrc" height="" width="2000">
+        </div>
         <div class="grid">
             <div></div>
             <router-link :to="{ name: 'Home'}">
@@ -26,7 +30,7 @@
         </div>
     </div>
 
-    
+
 </template>
 
 <script>
@@ -44,6 +48,7 @@
                 /* current: (new Date()).getTime(),
                 expiredTime: Number(storage.getItem('expiredTime.myblog')),
                 access: storage.getItem('access.myblog'), */
+                imgSrc:require('../assets/bg-light.png')
             }
         },
 
@@ -64,8 +69,6 @@
 </script>
 
 <style scoped>
-    /* 样式来源: https://www.runoob.com/css/css-dropdowns.html* /
-    /* 下拉按钮样式 */
     .dropbtn {
         background-color: mediumslateblue;
         color: white;
@@ -76,12 +79,10 @@
         height: 16px;
         border-radius: 5px;
     }
-    /* 容器 <div> - 需要定位下拉内容 */
     .dropdown {
         position: relative;
         display: inline-block;
     }
-    /* 下拉内容 (默认隐藏) */
     .dropdown-content {
         display: none;
         position: absolute;
@@ -121,13 +122,23 @@
         padding-right: 5px;
     }
 
-    #header {
+    .header {
         text-align: center;
-        margin-top: 20px;
+        margin-top: 10px;
+        height: 100%;
+        width: 100%;
+        background-attachment: fixed;
     }
 
     .grid {
         display: grid;
-        grid-template-columns: 1fr 4fr 1fr;
+        grid-template-columns: 4fr 4fr 1fr;
     }
+
+    .bg {
+        z-index : -1;
+        position : absolute; 
+    }
+
+
 </style>
